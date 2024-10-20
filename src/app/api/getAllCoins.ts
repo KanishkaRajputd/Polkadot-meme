@@ -2,7 +2,7 @@ import { NextApiHandler } from "next";
 import messages from "@/utils/messsages";
 import withErrorHandling from "@/api-middleware/withErrorHandling";
 import { firestore_db } from "@/services/firebaseinit";
-import { ICoin, IFirebaseCoin } from "@/types";
+import { ICoin } from "@/types";
 
 
 const handler: NextApiHandler<ICoin[] | {message: any | string}> = async (req, res) => {

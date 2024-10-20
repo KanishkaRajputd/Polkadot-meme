@@ -2,7 +2,7 @@ import { NextApiHandler } from "next";
 import messages from "@/utils/messsages";
 import withErrorHandling from "@/api-middleware/withErrorHandling";
 import { firestore_db } from "@/services/firebaseinit";
-import { ICoin, IFirebaseCoin, ZERO_BN } from "@/types";
+import { IFirebaseCoin, ZERO_BN } from "@/types";
 import { BN } from "bn.js";
 import getEncodedAddress from "@/utils/getEncodedAddress";
 
