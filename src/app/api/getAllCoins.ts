@@ -29,6 +29,7 @@ const handler: NextApiHandler<ICoin[] | {message: any | string}> = async (req, r
                     mintCount: data?.mint_addresses?.length || 0,
                     mintedByAddresses: data?.mint_addresses || [],
                     name: data?.name,
+                    network: data?.network,
                     proposer: data?.proposer,
                     title: data?.title,
                     totalSupply: data?.total_supply
