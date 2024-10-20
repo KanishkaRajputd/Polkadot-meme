@@ -16,7 +16,7 @@ export interface ICoin {
 }
 
 export interface IFirebaseCoin{
-    created_at: Date;
+    created_at: any;
     content: string;
     title: string;
     limit: string;

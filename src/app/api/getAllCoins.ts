@@ -2,7 +2,7 @@ import { NextApiHandler } from "next";
 import messages from "@/utils/messsages";
 import withErrorHandling from "@/api-middleware/withErrorHandling";
 import { firestore_db } from "@/services/firebaseinit";
-import { ICoin } from "@/types";
+import { ICoin, IFirebaseCoin } from "@/types";
 
 
 const handler: NextApiHandler<ICoin[] | {message: any | string}> = async (req, res) => {
@@ -23,11 +23,11 @@ const handler: NextApiHandler<ICoin[] | {message: any | string}> = async (req, r
             if(doc?.exists){
                 const data = doc?.data();
                 const payload: ICoin = {
-                    createdAt: data?.created_at?.toDate?data?.created_at?.toDate():data?.created_at,
+                    createdAt: data?.created_at?.toDate ? data?.created_at?.toDate() : data?.created_at,
                     limit: data?.limit,
                     logoImage: data?.logo_image,
-                    mintCount: data?.mint_addresses?.length || 0,
-                    mintedByAddresses: data?.mint_addresses || [],
+                    mintCount: data?.minted_addresses?.length || 0,
+                    mintedByAddresses: data?.minted_addresses || [],
                     name: data?.name,
                     network: data?.network,
                     proposer: data?.proposer,

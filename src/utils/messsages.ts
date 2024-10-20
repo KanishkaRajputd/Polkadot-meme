@@ -15,8 +15,11 @@ const messages = {
 	WALLET_NOT_FOUND: 'Wallet not found',
     INVALID_PARAMS: 'Invalid Params.',
     NO_DATA_FOUND: 'No data found',
-    MEME_COIN_ALLREADY_EXISTS: 'Meme coin already exists.',
-    MEME_COIN_CREATED_SUCCESSFULLY: 'Meme Coin created successfully.'
+    MEME_COIN_ALLREADY_EXISTS: 'Meme Coin already exists.',
+    MEME_COIN_DOES_NOT_EXISTS: 'Meme Coin not exists.',
+    MEME_COIN_CREATED_SUCCESSFULLY: 'Meme Coin created successfully.',
+    MEME_COIN_ALREADY_MINTED: 'Meme Coin alredy minted.',
+    MEME_COIN_MINTED_SUCCESSFULLY:'Meme Coin minted successfully.'
 };
 
 export default messages;
