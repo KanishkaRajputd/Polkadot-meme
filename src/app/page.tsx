@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Layout, Button, Table, Select } from "antd";
-import ConnectWallet from "./Components/ConnectWallet";
+import ConnectWallet from "../Components/ConnectWallet";
 import { motion } from "framer-motion";
 
 const { Header, Content } = Layout;
