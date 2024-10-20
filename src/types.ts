@@ -11,11 +11,12 @@ export interface ICoin {
     name: string;
     mintCount: number;
     mintedByAddresses: string[]; 
-    proposer: string; 
+    proposer: string;
+    network: string; 
 }
 
 export interface IFirebaseCoin{
-    created_at: Date;
+    created_at: any;
     content: string;
     title: string;
     limit: string;

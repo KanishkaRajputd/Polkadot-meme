@@ -21,11 +21,11 @@ const handler: NextApiHandler<{message: any | string}> = async (req, res) => {
             return res.status(500).json({ message: messages?.INVALID_PARAMS  });
         }
 
-        const coinsRefSnapshot =  firestore_db.collection('coins').doc(name);
-        const coinsRefDoc = await coinsRefSnapshot?.get();
+        const coinRefSnapshot =  firestore_db.collection('coins').doc(name);
+        const coinRefDoc = await coinRefSnapshot?.get();
 
 
-        if(coinsRefDoc.exists){
+        if(coinRefDoc.exists){
             return res.status(500).json({ message: messages?.MEME_COIN_ALLREADY_EXISTS  });
         }
 
@@ -36,12 +36,12 @@ const handler: NextApiHandler<{message: any | string}> = async (req, res) => {
             logo_image: logoImage,
             name: name,
             network: network,
-            proposer: proposer,
+            proposer: getEncodedAddress(proposer, network) || proposer,
             title: title || '',
             total_supply: totalSupply,
         }
         
-        await coinsRefSnapshot?.set(payload, {merge: true});
+        await coinRefSnapshot?.set(payload, {merge: true});
     
 		return res.status(200).json({ message: messages?.MEME_COIN_CREATED_SUCCESSFULLY });
 
