@@ -17,21 +17,30 @@ export default function ConnectWallet() {
   }, []);
 
   async function connectWallet() {
-    const { web3Enable, web3Accounts } = await import(
-      "@polkadot/extension-dapp"
-    );
-    const extensions = await web3Enable("Polki");
+    try {
+      const { web3Enable, web3Accounts } = await import(
+        "@polkadot/extension-dapp"
+      );
+      const extensions = await web3Enable("Polki");
 
-    if (!extensions.length) {
-      throw Error("No Extension Found");
-    }
+      if (!extensions.length) {
+        message.error(
+          "No extension found. Please install Polkadot.js extension."
+        );
+        return;
+      }
 
-    const allAccounts = await web3Accounts();
+      const allAccounts = await web3Accounts();
 
-    if (allAccounts.length) {
-      setSelectedAccount(allAccounts[0]);
-      setAccount(allAccounts);
-      localStorage.setItem("selectedAccount", JSON.stringify(allAccounts[0]));
+      if (allAccounts.length) {
+        setSelectedAccount(allAccounts[0]);
+        setAccount(allAccounts);
+        localStorage.setItem("selectedAccount", JSON.stringify(allAccounts[0]));
+      } else {
+        message.error("No accounts found in your extension.");
+      }
+    } catch (error) {
+      message.error(`Error connecting wallet: ${error}`);
     }
   }
 
@@ -39,6 +48,7 @@ export default function ConnectWallet() {
     setSelectedAccount(null);
     localStorage.removeItem("selectedAccount");
     setIsModalOpen(false);
+    message.success("Wallet disconnected.");
   }
 
   function handleCopyAddress() {
@@ -58,20 +68,18 @@ export default function ConnectWallet() {
 
   return (
     <>
-      {account.length === 0 && !selectedAccount ? (
+      {!selectedAccount ? (
         <Button type="primary" onClick={connectWallet}>
           Connect Wallet
         </Button>
       ) : (
         <div>
-          {selectedAccount && (
-            <Button type="primary" onClick={handleOpenModal}>
-              {`${selectedAccount.address.slice(
-                0,
-                4
-              )}...${selectedAccount.address.slice(-4)}`}
-            </Button>
-          )}
+          <Button type="primary" onClick={handleOpenModal}>
+            {`${selectedAccount.address.slice(
+              0,
+              4
+            )}...${selectedAccount.address.slice(-4)}`}
+          </Button>
         </div>
       )}
 

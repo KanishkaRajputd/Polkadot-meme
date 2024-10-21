@@ -1,19 +1,43 @@
 "use client";
 import React, { useState } from "react";
-import { Layout, Button, Select } from "antd";
-import ConnectWallet from "./ConnectWallet";
+import { Layout, Button, Select, Modal, Form, InputNumber, Input } from "antd";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import ConnectWallet from "./ConnectWallet";
 
 const { Header } = Layout;
 const { Option } = Select;
+
 const networks = [
   { label: "Polkadot", value: "polkadot", color: "#E6007A" },
   { label: "Kusama", value: "kusama", color: "#FFFFFF" },
   { label: "Moonbeam", value: "moonbeam", color: "#53CBC9" },
 ];
+
 function Navbar() {
   const [selectedNetwork, setSelectedNetwork] = useState<string>("Polkadot");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [form] = Form.useForm();
+
+  const handleSubmit = (values: {
+    symbol: string;
+    logoUrl: string;
+    totalSupply: number;
+    mintLimit: number;
+  }) => {
+    console.log("Form values:", values);
+    handleCloseModal();
+  };
+
+  const handleOpenModal = () => {
+    console.log("Open modal");
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+    form.resetFields();
+  };
 
   const handleNetworkChange = (value: string) => {
     setSelectedNetwork(value);
@@ -91,25 +115,24 @@ function Navbar() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.4 }}
           >
-            <Link href="/create-memecoin">
-              <Button
-                type="default"
-                style={{
-                  background: "#53CBC9",
-                  color: "#fff",
-                  borderRadius: "5px",
-                  border: "none",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.backgroundColor = "#45b1b0")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.backgroundColor = "#53CBC9")
-                }
-              >
-                Create Memecoin
-              </Button>
-            </Link>
+            <Button
+              type="default"
+              style={{
+                background: "#53CBC9",
+                color: "#fff",
+                borderRadius: "5px",
+                border: "none",
+              }}
+              onClick={handleOpenModal}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = "#45b1b0")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = "#53CBC9")
+              }
+            >
+              Create Memecoin
+            </Button>
           </motion.div>
 
           <motion.div
@@ -121,6 +144,112 @@ function Navbar() {
           </motion.div>
         </div>
       </Header>
+      <Modal
+        title="Create MEME Token"
+        visible={isModalVisible}
+        onCancel={handleCloseModal}
+        footer={null}
+      >
+        <div
+          style={{
+            padding: "20px 20px",
+          }}
+        >
+          <div>
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={handleSubmit}
+              style={{ textAlign: "left" }}
+            >
+              <Form.Item
+                label="Token Symbol"
+                name="symbol"
+                rules={[
+                  { required: true, message: "Please enter the token symbol" },
+                ]}
+              >
+                <Input
+                  placeholder="e.g., DOT, KSM"
+                  style={{
+                    height: "45px",
+                    borderRadius: "8px",
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Token Logo URL"
+                name="logoUrl"
+                rules={[
+                  { required: true, message: "Please enter the logo URL" },
+                ]}
+              >
+                <Input
+                  placeholder="e.g., https://example.com/logo.png"
+                  style={{
+                    height: "45px",
+                    borderRadius: "8px",
+                  }}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="Total Supply"
+                name="totalSupply"
+                rules={[
+                  { required: true, message: "Please enter the total supply" },
+                ]}
+              >
+                <InputNumber
+                  placeholder="e.g., 1000000"
+                  style={{
+                    width: "100%",
+                    height: "45px",
+                    borderRadius: "8px",
+                  }}
+                  min={1}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="Limit per Mint"
+                name="mintLimit"
+                rules={[
+                  { required: true, message: "Please enter the mint limit" },
+                ]}
+              >
+                <InputNumber
+                  placeholder="e.g., 100"
+                  style={{
+                    width: "100%",
+                    height: "45px",
+                    borderRadius: "8px",
+                  }}
+                  min={1}
+                />
+              </Form.Item>
+
+              <Form.Item>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  style={{
+                    width: "100%",
+                    height: "50px",
+                    fontSize: "16px",
+                    fontWeight: "500",
+                    backgroundColor: "#1890ff",
+                    borderColor: "#1890ff",
+                    borderRadius: "8px",
+                  }}
+                >
+                  Create Token
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
