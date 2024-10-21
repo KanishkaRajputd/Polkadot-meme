@@ -4,6 +4,7 @@ import { Layout, Button, Select, Modal, Form, InputNumber, Input } from "antd";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import ConnectWallet from "./ConnectWallet";
+import nextApiClientFetch from "@/utils/nextApiClientFetch";
 
 const { Header } = Layout;
 const { Option } = Select;
@@ -18,14 +19,42 @@ function Navbar() {
   const [selectedNetwork, setSelectedNetwork] = useState<string>("Polkadot");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
+  const creatememetoken = async (values: {
+    symbol: string;
+    logoUrl: string;
+    totalSupply: number;
+    mintLimit: number;
+    title: string;
+    content: string;
+  }) => {
+    const { data, error } = await nextApiClientFetch<any>("/api/createCoin", {
+      name: values.symbol,
+      logoImage: values.logoUrl,
+      totalSupply: values.totalSupply,
+      limit: values.mintLimit,
+      title: values.title,
+      content: values.content,
+      proposer: "your_wallet_address",
+    });
+
+    if (error) {
+      console.error("Error Creating Meme Token:", error);
+      return null;
+    }
+
+    return data;
+  };
 
   const handleSubmit = (values: {
     symbol: string;
     logoUrl: string;
     totalSupply: number;
+    title: string;
+    content: string;
     mintLimit: number;
   }) => {
     console.log("Form values:", values);
+    creatememetoken(values);
     handleCloseModal();
   };
 
@@ -148,11 +177,12 @@ function Navbar() {
         title="Create MEME Token"
         visible={isModalVisible}
         onCancel={handleCloseModal}
+        className="-mt-10"
         footer={null}
       >
         <div
           style={{
-            padding: "20px 20px",
+            padding: "10px 10px",
           }}
         >
           <div>
@@ -162,6 +192,35 @@ function Navbar() {
               onFinish={handleSubmit}
               style={{ textAlign: "left" }}
             >
+              <Form.Item
+                label="Title"
+                name="title"
+                rules={[{ required: true, message: "Please enter the title" }]}
+              >
+                <Input
+                  placeholder="e.g., MEME Token"
+                  style={{
+                    height: "45px",
+                    borderRadius: "8px",
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Content"
+                name="content"
+                rules={[
+                  { required: true, message: "Please enter the content" },
+                ]}
+              >
+                <Input
+                  placeholder="e.g., MEME Token Description"
+                  style={{
+                    height: "45px",
+                    borderRadius: "8px",
+                  }}
+                />
+              </Form.Item>
+
               <Form.Item
                 label="Token Symbol"
                 name="symbol"
