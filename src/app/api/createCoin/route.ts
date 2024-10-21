@@ -1,24 +1,28 @@
-import { NextApiHandler } from "next";
-import messages from "@/utils/messsages";
 import withErrorHandling from "@/api-middleware/withErrorHandling";
 import { firestore_db } from "@/services/firebaseinit";
-import { ICoin, IFirebaseCoin, ZERO_BN } from "@/types";
+import { IFirebaseCoin, ZERO_BN } from "@/types";
 import { BN } from "bn.js";
 import getEncodedAddress from "@/utils/getEncodedAddress";
+import { NextRequest, NextResponse } from "next/server";
+import MESSAGES from "@/utils/messsages";
+import { APIError } from "@/global/exceptions";
+import getReqBody from "@/utils/getReqBody";
 
+const network = process.env.PUBLIC_NETWORK;
 
-const handler: NextApiHandler<{message: any | string}> = async (req, res) => {
-	try {
-		const network = String(req.headers['x-network']);
+export const POST = withErrorHandling(async (req: NextRequest) => {
 
-		if (!network) {
-			return res.status(400).json({ message: messages.INVALID_NETWORK });
-		}
+    if(!network){
+        throw new APIError(MESSAGES.INVALID_NETWORK, 400)
+    }
 
-        const {name, totalSupply, title, content, limit, logoImage, proposer} = req?.body;
+	const {name, totalSupply, title, content, limit, logoImage, proposer} = await getReqBody(req);
+
+	
+    if(!name?.length || !title?.length || !content?.length || new BN(limit || '0').eq(ZERO_BN) || !logoImage?.length || !network || !proposer?.length || !getEncodedAddress(proposer, network))  throw new APIError(MESSAGES.INVALID_NETWORK, 500);
 
         if(!name?.length || !title?.length || !content?.length || new BN(limit || '0').eq(ZERO_BN) || !logoImage?.length || !proposer?.length || !getEncodedAddress(proposer, network)){
-            return res.status(500).json({ message: messages?.INVALID_PARAMS  });
+            throw new APIError(MESSAGES.INVALID_PARAMS, 400)
         }
 
         const coinRefSnapshot =  firestore_db.collection('coins').doc(name);
@@ -26,7 +30,7 @@ const handler: NextApiHandler<{message: any | string}> = async (req, res) => {
 
 
         if(coinRefDoc.exists){
-            return res.status(500).json({ message: messages?.MEME_COIN_ALLREADY_EXISTS  });
+            throw new APIError(MESSAGES.MEME_COIN_ALLREADY_EXISTS, 400)
         }
 
         const payload: IFirebaseCoin = {
@@ -43,11 +47,6 @@ const handler: NextApiHandler<{message: any | string}> = async (req, res) => {
         
         await coinRefSnapshot?.set(payload, {merge: true});
     
-		return res.status(200).json({ message: messages?.MEME_COIN_CREATED_SUCCESSFULLY });
+		return NextResponse.json({message: MESSAGES.MEME_COIN_CREATED_SUCCESSFULLY})
+});
 
-	} catch (err) {
-		return res.status(500).json({ message: err || messages.API_FETCH_ERROR });
-	}
-};
-
-export default withErrorHandling(handler);
