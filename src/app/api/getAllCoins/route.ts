@@ -1,5 +1,5 @@
 import withErrorHandling from "@/api-middleware/withErrorHandling";
-import { APIError } from "@/global/exceptions";
+import { APIError } from "../../../../public/exceptions";
 import { firestore_db } from "@/services/firebaseinit";
 import { ICoin } from "@/types";
 import MESSAGES from "@/utils/messsages";

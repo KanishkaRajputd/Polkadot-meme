@@ -2,7 +2,8 @@
 import React from "react";
 import { Layout, Table } from "antd";
 import { motion } from "framer-motion";
-import Navbar from "@/Components/Navbar";
+import Navbar from "@/components/Navbar";
+import CreateMemeCoin from "@/components/CreateMemeCoin";
 
 const { Content } = Layout;
 
@@ -51,7 +52,8 @@ const LandingPage = () => {
           alignItems: "center",
         }}
       >
-        <motion.h2
+        <CreateMemeCoin className='w-full flex items-end justify-end'/>
+        {/* <motion.h2
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -80,7 +82,7 @@ const LandingPage = () => {
               boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
             }}
           />
-        </motion.div>
+        </motion.div> */}
       </Content>
 
       <style jsx>{`

@@ -5,7 +5,7 @@ import { BN } from "bn.js";
 import getEncodedAddress from "@/utils/getEncodedAddress";
 import { NextRequest, NextResponse } from "next/server";
 import MESSAGES from "@/utils/messsages";
-import { APIError } from "@/global/exceptions";
+import { APIError } from "../../../../public/exceptions";
 import getReqBody from "@/utils/getReqBody";
 
 const network = process.env.PUBLIC_NETWORK;
@@ -17,11 +17,8 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
     }
 
 	const {name, totalSupply, title, content, limit, logoImage, proposer} = await getReqBody(req);
-
-	
-    if(!name?.length || !title?.length || !content?.length || new BN(limit || '0').eq(ZERO_BN) || !logoImage?.length || !network || !proposer?.length || !getEncodedAddress(proposer, network))  throw new APIError(MESSAGES.INVALID_NETWORK, 500);
-
-        if(!name?.length || !title?.length || !content?.length || new BN(limit || '0').eq(ZERO_BN) || !logoImage?.length || !proposer?.length || !getEncodedAddress(proposer, network)){
+    
+    if(!name?.length || !title?.length || !content?.length || new BN(limit || '0').eq(ZERO_BN) || !logoImage?.length || !proposer?.length || !getEncodedAddress(proposer, network)){
             throw new APIError(MESSAGES.INVALID_PARAMS, 400)
         }
 
