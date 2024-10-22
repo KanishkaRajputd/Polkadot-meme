@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from "next/server";
 const network = process.env.PUBLIC_NETWORK;
 
 export const POST = withErrorHandling(async (req: NextRequest) => {
-	const {coinName, mintingAddress } = await getReqBody(req);
+	const {coinName, mintingAddress, tokens } = await getReqBody(req);
 
     if(!network){
         throw new APIError(MESSAGES.INVALID_NETWORK, 400)
@@ -36,9 +36,10 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
     }
 
     const payload = {
-       minted_addresses: [...coinData?.minted_addresses, getEncodedAddress(mintingAddress, network) || mintingAddress]
+       minted_addresses: [...coinData?.minted_addresses || [], getEncodedAddress(mintingAddress, network) || mintingAddress]
     }
     
     await coinRefSnapshot?.update(payload);
+    console.log(payload);
     return NextResponse.json({message: MESSAGES.MEME_COIN_MINTED_SUCCESSFULLY})
 });

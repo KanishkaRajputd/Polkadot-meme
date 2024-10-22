@@ -13,6 +13,7 @@ export interface ICoin {
     mintedByAddresses: string[]; 
     proposer: string;
     network: string; 
+	minted?: string;
 }
 
 export enum NotificationStatus {
@@ -58,3 +59,9 @@ export interface ChainProps {
 	rpcEndpoints: TRPCEndpoint[];
 	relayRpcEndpoints?: TRPCEndpoint[];
 }
+
+
+export type ServerComponentProps<T, U> = {
+	params?: T;
+	searchParams?: U;
+};

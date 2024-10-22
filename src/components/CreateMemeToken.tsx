@@ -12,6 +12,13 @@ import BN from "bn.js";
 import getEncodedAddress from "@/utils/getEncodedAddress";
 import executeTx from "@/utils/executed";
 import { web3FromSource } from "@polkadot/extension-dapp";
+import classNames from "classnames";
+const ConnectWallet = dynamic(() => import('./ConnectWallet'), 
+{
+    ssr: false,
+    loading: () => <Skeleton.Button active />,
+});
+
 
 const TextEditor = dynamic(() => import('./TextEditor'), 
 {
@@ -22,7 +29,7 @@ const TextEditor = dynamic(() => import('./TextEditor'),
 const network = process.env.PUBLIC_NETWORK;
 
 
-const CreateMemeCoin=({className}:{className?: string})=>{
+const CreateMemeCoin = ({className} : { className?: string})=>{
     const {loginAddress,accounts} = useUserDetailsContext();
     const {api, apiReady} = useApiContext();
     const [form] = Form.useForm();
@@ -30,7 +37,7 @@ const CreateMemeCoin=({className}:{className?: string})=>{
     const [content , setContent] = useState('');
     const [laoding, setLoading] = useState(false);
 
-    const handleOffChainCall =async(values: {
+    const handleOffChainCall = async(values: {
       symbol: string;
       logoUrl: string;
       totalSupply: number;
@@ -79,7 +86,6 @@ const CreateMemeCoin=({className}:{className?: string})=>{
         title: string;
         content: string;
       }) => {
-console.log({api, apiReady})
         if(!api || !apiReady) return;
         setLoading(true);
       
@@ -132,8 +138,8 @@ console.log({api, apiReady})
 return <div className={className}>
     <Button
     onClick={()=> setIsModalVisible(!isModalVisible)}
-    className="h-12 bg-primaryButton text-white text-base font-medium w-[300px] tracking-wide cursor-pointer">
-        Create Meme Coin
+    className={classNames("h-12 bg-primaryButton text-white text-base font-medium w-[300px] tracking-wide cursor-pointer")}>
+        Create Meme Token
     </Button>
   
     <Modal
@@ -147,7 +153,7 @@ return <div className={className}>
             padding: "10px 10px",
           }}
         >
-          <Spin spinning={laoding}>
+         {!loginAddress?.length ? <ConnectWallet className="w-full flex items-center -ml-2 mt-2"/> : <Spin spinning={laoding}>
             <Form
               form={form}
               layout="vertical"
@@ -256,7 +262,7 @@ return <div className={className}>
                 </Button>
               </Form.Item>
             </Form>
-          </Spin>
+          </Spin>}
         </div>
       </Modal>
 </div>

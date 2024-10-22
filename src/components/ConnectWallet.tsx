@@ -7,7 +7,7 @@ import AvailableWallets from './AvailableWallet';
 import classNames from 'classnames';
 import { poppins } from '@/app/layout';
 
-const SelectAddressFromWallet = ({className}:{className?: string}) => {
+const ConnectWallet = ({className}:{className?: string}) => {
   const { accounts, loginAddress, setLoginAddress } = useUserDetailsContext();
   const [open, setOpen] = useState(false);
   const accountName = accounts.find((account) => account.address === loginAddress)
@@ -27,7 +27,7 @@ const SelectAddressFromWallet = ({className}:{className?: string}) => {
         type='default'
         htmlType='button'
         onClick={() => setOpen(true)}
-        className='flex items-center justify-center h-8 py-1 text-primaryText'>
+        className='flex items-center justify-center h-8 py-1 text-primaryButton'>
         {!loginAddress ? (
           'Connect Wallet'
         ) : (
@@ -67,4 +67,4 @@ const SelectAddressFromWallet = ({className}:{className?: string}) => {
     </div>
   );
 };
-export default SelectAddressFromWallet;
+export default ConnectWallet;

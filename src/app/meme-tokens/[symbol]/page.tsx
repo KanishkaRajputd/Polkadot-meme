@@ -1,9 +1,14 @@
 "use client";
 
-import React from "react";
-import { Layout, Skeleton, Table } from "antd";
-import dynamic from "next/dynamic";
+import MemeTokenDetails from "@/components/MemeTokenDetails";
 import TokensListing from "@/components/TokensListing";
+import { ServerComponentProps } from "@/types";
+import { Layout, Skeleton } from "antd";
+import { symbol } from "framer-motion/client";
+import { GetServerSideProps } from "next";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import React from "react";
 
 const CreateMemeCoin = dynamic(() => import('@/components/CreateMemeToken'), 
 {
@@ -15,13 +20,19 @@ const Navbar = dynamic(() => import('@/components/Navbar'),
 {
     ssr: false,
 });
-
 const { Content } = Layout;
 
-const LandingPage = () => {
-  return (
-    <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
-      <Navbar />
+interface IParams {
+	symbol: string;
+}
+
+function Token({params}: ServerComponentProps<IParams, {}>) {
+
+  console.log(params?.symbol)
+  return  <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
+      
+      <Navbar/>
+
       <Content
         style={{
           padding: "30px",
@@ -31,7 +42,7 @@ const LandingPage = () => {
         }}
       >
         <CreateMemeCoin className='w-full flex items-end justify-end'/>
-        <TokensListing className="w-full"/>
+        <MemeTokenDetails className="w-full flex flex-col gap-4" symbol={params?.symbol || ''}/>
       </Content>
 
       <style jsx>{`
@@ -46,7 +57,7 @@ const LandingPage = () => {
         }
       `}</style>
     </Layout>
-  );
-};
 
-export default LandingPage;
+}
+
+export default Token;

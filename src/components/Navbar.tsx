@@ -23,7 +23,7 @@ function Navbar() {
           justifyContent: "space-between",
           alignItems: "center",
           background: "#E5007A",
-          padding: "0 20px",
+          padding: "0 32px",
         }}
       >
         <Link href="/">
@@ -53,36 +53,11 @@ function Navbar() {
             transition={{ duration: 0.7, delay: 0.3 }}
           >
              <Button
-              className="text-primaryText"
+              className="text-primaryButton"
               type="default"
             >
               Polkadot</Button>
               </motion.div>
-
-          {/* <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-          >
-            <Button
-              type="default"
-              style={{
-                background: "#E5007A",
-                color: "#fff",
-                borderRadius: "5px",
-                border: "none",
-              }}
-              onClick={handleOpenModal}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = "#45b1b0")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = "#E5007A")
-              }
-            >
-              Create Memecoin
-            </Button>
-          </motion.div> */}
 
           <motion.div
             initial={{ opacity: 0 }}
