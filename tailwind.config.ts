@@ -6,11 +6,15 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  fontFamily: {
+    poppins: ['var(--font-poppins)'],
+    pixeboy: ['Pixeboy', 'sans-serif'],
+    pixelify: ['Pixelify Sans', 'sans-serif']
+  },
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+       primaryButton: "#53CBC9"
       },
     },
   },

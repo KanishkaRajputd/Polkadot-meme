@@ -1,5 +1,5 @@
 
-const messages = {
+const MESSAGES = {
     INVALID_NETWORK: 'Invalid network.',
 	API_FETCH_ERROR: 'Something went wrong while fetching data. Please try again later.',
 	INVALID_REQUEST_BODY: 'invalid request body',
@@ -19,7 +19,8 @@ const messages = {
     MEME_COIN_DOES_NOT_EXISTS: 'Meme Coin not exists.',
     MEME_COIN_CREATED_SUCCESSFULLY: 'Meme Coin created successfully.',
     MEME_COIN_ALREADY_MINTED: 'Meme Coin alredy minted.',
-    MEME_COIN_MINTED_SUCCESSFULLY:'Meme Coin minted successfully.'
+    MEME_COIN_MINTED_SUCCESSFULLY:'Meme Coin minted successfully.',
+	REQ_BODY_ERROR: "Invalid Request body."
 };
 
-export default messages;
+export default MESSAGES;

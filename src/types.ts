@@ -1,5 +1,5 @@
 import { BN } from "bn.js";
-import { tokenSymbol } from "./global/networkConstants";
+import { tokenSymbol } from "../public/networkConstants";
 
 export interface ICoin {
     createdAt: string;
