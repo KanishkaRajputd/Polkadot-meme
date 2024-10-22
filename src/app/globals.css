@@ -12,3 +12,9 @@ body {
       "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
       "Helvetica Neue", sans-serif, "Space Grotesk", "Pixeboy", "Pixelify Sans";
   }
+
+  :root{
+    --primaryButton: #E5007A;
+    --primaryText: #485f7d
+
+  }

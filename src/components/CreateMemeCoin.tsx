@@ -1,54 +1,133 @@
-"use client"
 
+import React from "react";
 import useUserDetailsContext from "@/context";
 import nextApiClientFetch from "@/utils/nextApiClientFetch";
-import { Button, Form, Input, InputNumber, Modal } from "antd";
+import { Button, Form, Input, InputNumber, Modal, Skeleton, Spin } from "antd";
 import { useState } from "react";
+import dynamic from 'next/dynamic';
+import queueNotification from "./QueueNotification";
+import { NotificationStatus } from "@/types";
+import { useApiContext } from "@/context/ApiContext";
+import BN from "bn.js";
+import getEncodedAddress from "@/utils/getEncodedAddress";
+import executeTx from "@/utils/executed";
+import { web3FromSource } from "@polkadot/extension-dapp";
+
+const TextEditor = dynamic(() => import('./TextEditor'), 
+{
+    ssr: false,
+    loading: () => <Skeleton active />,
+});
+
+const network = process.env.PUBLIC_NETWORK;
+
 
 const CreateMemeCoin=({className}:{className?: string})=>{
-    const {loginAddress} = useUserDetailsContext();
+    const {loginAddress,accounts} = useUserDetailsContext();
+    const {api, apiReady} = useApiContext();
     const [form] = Form.useForm();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [content , setContent] = useState('');
+    const [laoding, setLoading] = useState(false);
 
-
-    const creatememetoken = async (values: {
-        symbol: string;
-        logoUrl: string;
-        totalSupply: number;
-        mintLimit: number;
-        title: string;
-        content: string;
-      }) => {
-        const { data, error } = await nextApiClientFetch<any>("/api/createCoin", {
-          name: values.symbol,
-          logoImage: values.logoUrl,
-          totalSupply: values.totalSupply,
-          limit: values.mintLimit,
-          title: values.title,
-          content: values.content,
-          proposer: loginAddress,
-        });
-    
-        if (error) {
+    const handleOffChainCall =async(values: {
+      symbol: string;
+      logoUrl: string;
+      totalSupply: number;
+      mintLimit: number;
+      title: string;
+      content: string;
+    })=>{
+      const { data, error } = await nextApiClientFetch<{message: string}>("/api/createCoin", {
+        name: values.symbol,
+        logoImage: values.logoUrl,
+        totalSupply: values.totalSupply,
+        limit: values.mintLimit,
+        title: values.title,
+        content: values.content,
+        proposer: loginAddress,
+      });
+      if(data){
+          console.log({data});
+          queueNotification(
+              {
+                  header: "Success!",
+                  message: data?.message || 'hello',
+                  status: NotificationStatus.SUCCESS
+              }
+          )
+          setIsModalVisible(false);
+      }   
+      if (error) {
+          queueNotification(
+              {
+                  header: "Error!",
+                  message: error || '',
+                  status: NotificationStatus.ERROR
+              }
+          )
           console.error("Error Creating Meme Token:", error);
-          return null;
         }
-    
-        return data;
-      };
-    
-      const handleSubmit = (values: {
+    }
+
+
+    const handleSubmit = async (values: {
         symbol: string;
         logoUrl: string;
         totalSupply: number;
+        mintLimit: number;
         title: string;
         content: string;
-        mintLimit: number;
       }) => {
-        console.log("Form values:", values);
-        creatememetoken(values);
+console.log({api, apiReady})
+        if(!api || !apiReady) return;
+        setLoading(true);
+      
+        const payload = {
+          p: process.env.CURRENT_NET,
+          op: 'deploy',
+          tick: values?.symbol,
+          max: `${values?.totalSupply}`,
+          lim: `${values?.mintLimit}`,
+        };
+        const remarkTx = api.tx.system.remarkWithEvent(JSON.stringify(payload));
+        const feeTx = api.tx.balances?.transferKeepAlive(
+          getEncodedAddress(process?.env?.MINT_FEE_RECEIVER || '', network || 'polkadot'),
+          new BN('1000000000000')
+        );
+  
+
+        const injector = await web3FromSource(
+          accounts.find((acc) => acc.address === loginAddress)?.meta?.source
+        );
+        const signer = injector.signer;
+        const tx = api.tx.utility.batchAll([remarkTx, feeTx]);
+
+        await executeTx({
+          api: api,
+          apiReady: true,
+          network: network || 'polkadot' ,
+          tx: tx,
+          address: loginAddress,
+          params: { signer },
+          onSuccess: async (txHash: string) => {
+            setIsModalVisible(true);
+            await handleOffChainCall(values);
+            setLoading(false);
+          },
+          errorMessageFallback: 'Token creation failed.',
+          onFailed: async (err) => {
+            setLoading(false);
+            queueNotification({
+              header: 'Error!',
+              message: err,
+              status: NotificationStatus.ERROR
+            });
+          },
+        });
+        
       };
+
 
 return <div className={className}>
     <Button
@@ -56,6 +135,7 @@ return <div className={className}>
     className="h-12 bg-primaryButton text-white text-base font-medium w-[300px] tracking-wide cursor-pointer">
         Create Meme Coin
     </Button>
+  
     <Modal
         title="Create MEME Token"
         open={isModalVisible}
@@ -67,7 +147,7 @@ return <div className={className}>
             padding: "10px 10px",
           }}
         >
-          <div>
+          <Spin spinning={laoding}>
             <Form
               form={form}
               layout="vertical"
@@ -92,20 +172,33 @@ return <div className={className}>
                 ]}
               >
                 <TextEditor
-                  className="h-10 w-full"
-                  value={content }
-                  name='content'
-                  onChange={(content: string)=> setContent(content)}
-                  height={200}
+                value={content}
+                onChange={setContent} 
+                height={200}
+                isPreview={false}
                 />
               </Form.Item>
 
               <Form.Item
                 label="Token Symbol"
                 name="symbol"
-                rules={[
-                  { required: true, message: "Please enter the token symbol" },
-                ]}
+                rules={
+                        [
+                                {
+                                    required: true,
+                                    message: 'Invalid character found!',
+                                    validator(rule, value, callback) {
+                                        const format = /^[a-zA-Z0-9_@-]*$/;
+
+                                        if (callback && !format.test(value)) {
+                                            callback(rule?.message?.toString());
+                                        } else {
+                                            callback();
+                                        }
+                                    }
+                                }
+                          ]
+                }
               >
                 <Input
                   placeholder="e.g., DOT, KSM"
@@ -163,7 +256,7 @@ return <div className={className}>
                 </Button>
               </Form.Item>
             </Form>
-          </div>
+          </Spin>
         </div>
       </Modal>
 </div>

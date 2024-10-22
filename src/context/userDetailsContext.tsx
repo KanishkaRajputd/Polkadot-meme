@@ -1,6 +1,6 @@
 "use client"
-import React, { useContext, useState } from 'react';
 
+import React, { useState } from 'react';
 import { Modal } from 'antd';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 
@@ -36,6 +36,7 @@ export function UserDetailsContextProvider(props: any) {
 
   const connectWallet = async (wallet: any) => {
     try {
+      if(!window)return;
       const result = await web3Enable(APPNAME);
 
       console.log(result,'results');

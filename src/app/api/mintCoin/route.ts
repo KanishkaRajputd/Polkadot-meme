@@ -1,5 +1,5 @@
 import withErrorHandling from "@/api-middleware/withErrorHandling";
-import { APIError } from "../../../../public/exceptions";
+import { APIError } from "../../../utils/exceptions";
 import { firestore_db } from "@/services/firebaseinit";
 import getEncodedAddress from "@/utils/getEncodedAddress";
 import getReqBody from "@/utils/getReqBody";

@@ -1,10 +1,19 @@
 "use client";
-import React from "react";
-import { Layout, Table } from "antd";
-import { motion } from "framer-motion";
-import Navbar from "@/components/Navbar";
-import CreateMemeCoin from "@/components/CreateMemeCoin";
 
+import React from "react";
+import { Layout, Skeleton, Table } from "antd";
+import dynamic from "next/dynamic";
+
+const CreateMemeCoin = dynamic(() => import('@/components/CreateMemeCoin'), 
+{
+    ssr: false,
+    loading: () => <Skeleton.Button active />,
+});
+
+const Navbar = dynamic(() => import('@/components/Navbar'), 
+{
+    ssr: false,
+});
 const { Content } = Layout;
 
 const columns = [

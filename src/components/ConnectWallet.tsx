@@ -1,3 +1,4 @@
+
 import useUserDetailsContext from '@/context';
 import {  Alert, Button, Modal, Select } from 'antd';
 import { useState } from 'react';
@@ -26,7 +27,7 @@ const SelectAddressFromWallet = ({className}:{className?: string}) => {
         type='default'
         htmlType='button'
         onClick={() => setOpen(true)}
-        className='flex items-center justify-center h-8 py-1 text-white border-gray-600 bg-primaryButton'>
+        className='flex items-center justify-center h-8 py-1 text-primaryText'>
         {!loginAddress ? (
           'Connect Wallet'
         ) : (

@@ -5,7 +5,7 @@ import { BN } from "bn.js";
 import getEncodedAddress from "@/utils/getEncodedAddress";
 import { NextRequest, NextResponse } from "next/server";
 import MESSAGES from "@/utils/messsages";
-import { APIError } from "../../../../public/exceptions";
+import { APIError } from "../../../utils/exceptions";
 import getReqBody from "@/utils/getReqBody";
 
 const network = process.env.PUBLIC_NETWORK;

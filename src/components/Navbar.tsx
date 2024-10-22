@@ -1,11 +1,15 @@
-"use client";
-import React, { useState } from "react";
-import { Layout, Button, Form } from "antd";
+
+import { Layout, Button, Skeleton } from "antd";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import ConnectWallet from "./ConnectWallet";
-import nextApiClientFetch from "@/utils/nextApiClientFetch";
-import useUserDetailsContext from "@/context";
+import dynamic from "next/dynamic";
+
+const ConnectWallet = dynamic(() => import('./ConnectWallet'), 
+{
+    ssr: false,
+    loading: () => <Skeleton.Button active />,
+});
+
 
 const { Header } = Layout;
 
@@ -18,7 +22,7 @@ function Navbar() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          background: "#001529",
+          background: "#E5007A",
           padding: "0 20px",
         }}
       >
@@ -49,15 +53,8 @@ function Navbar() {
             transition={{ duration: 0.7, delay: 0.3 }}
           >
              <Button
-              style={{
-                background: "#53CBC9",
-                color: "#fff",
-                borderRadius: "4px",
-                border: "none",
-                fontWeight:600,
-                padding:'4px 16px',
-                marginRight:'8px'
-              }}
+              className="text-primaryText"
+              type="default"
             >
               Polkadot</Button>
               </motion.div>
@@ -70,7 +67,7 @@ function Navbar() {
             <Button
               type="default"
               style={{
-                background: "#53CBC9",
+                background: "#E5007A",
                 color: "#fff",
                 borderRadius: "5px",
                 border: "none",
@@ -80,7 +77,7 @@ function Navbar() {
                 (e.currentTarget.style.backgroundColor = "#45b1b0")
               }
               onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = "#53CBC9")
+                (e.currentTarget.style.backgroundColor = "#E5007A")
               }
             >
               Create Memecoin

@@ -1,5 +1,5 @@
 import { BN } from "bn.js";
-import { tokenSymbol } from "../public/networkConstants";
+import { tokenSymbol } from "./utils/networkConstants";
 
 export interface ICoin {
     createdAt: string;
@@ -13,6 +13,13 @@ export interface ICoin {
     mintedByAddresses: string[]; 
     proposer: string;
     network: string; 
+}
+
+export enum NotificationStatus {
+	SUCCESS = 'success',
+	ERROR = 'error',
+	WARNING = 'warning',
+	INFO = 'info'
 }
 
 export interface IFirebaseCoin{

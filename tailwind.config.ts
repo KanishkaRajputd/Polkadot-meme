@@ -14,7 +14,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-       primaryButton: "#53CBC9"
+       primaryButton: "#E5007A"
       },
     },
   },

@@ -1,4 +1,8 @@
-import { toast } from 'react-toastify';
+
+
+import { NotificationStatus } from '@/types';
+import { notification } from 'antd';
+import React from 'react';
 
 function NotificationMessage({ header, message }: any) {
 	return (
@@ -9,29 +13,15 @@ function NotificationMessage({ header, message }: any) {
 	);
 }
 
-const queueNotification = ({ header, message, duration = 5000, status }: any) => {
+const queueNotification = ({ header, message, duration = 5, status }: {status: NotificationStatus, message: string, header: string, duration?: number}) => {
 	const args = {
-		autoClose: duration
+		message: header,
+		description: message,
+		duration: duration
 	};
 
-	if (status) {
-		(toast as any)?.[status](
-			<NotificationMessage
-				header={header}
-				message={message}
-			/>,
-			args
-		);
-		return;
-	}
-
-	toast(
-		<NotificationMessage
-			header={header}
-			message={message}
-		/>,
-		args
-	);
+	// queues notifcation
+	notification[status](args);
 };
 
 export default queueNotification;

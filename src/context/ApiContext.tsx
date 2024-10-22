@@ -1,11 +1,14 @@
+"use client"
+
 import React, { useContext, useEffect, useState } from 'react';
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { chainProperties } from '../../public/networkConstants';
 import queueNotification from '@/components/QueueNotification';
+import { chainProperties } from '@/utils/networkConstants';
+import { NotificationStatus } from '@/types';
 
 
 interface Args{
-    api: null| ApiPromise,
+    api: null | ApiPromise,
     ss58Format: number,
     decimals: number,
     network: string,
@@ -37,6 +40,8 @@ export function ApiContextProvider(props: any) {
         setDecimals(chainProperties[network].tokenDecimals);
 	}, [network]);
 
+    console.log({rpcEndpoint, network})
+
     useEffect(() => {
         (async () => {
             let api: any  = null;
@@ -57,7 +62,7 @@ export function ApiContextProvider(props: any) {
                     queueNotification({
 						header: 'Error!',
 						message: 'RPC connection error.',
-						status: 'error'
+						status: NotificationStatus.ERROR
 					});
                 });
                 api?.isReady?.then(() => {
@@ -71,7 +76,7 @@ export function ApiContextProvider(props: any) {
                     queueNotification({
 						header: 'Error!',
 						message: 'RPC connection error.',
-						status: 'error'
+						status: NotificationStatus.ERROR
 					});
                 });
             } catch (error) {
@@ -84,7 +89,7 @@ export function ApiContextProvider(props: any) {
                 queueNotification({
                     header: 'Error!',
                     message: 'RPC connection error.',
-                    status: 'error'
+                    status: NotificationStatus.ERROR
                 });
             }
         })();

@@ -3,25 +3,27 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev": "NODE_OPTIONS='--inspect' next dev"
   },
   "dependencies": {
+    "@ant-design/nextjs-registry": "^1.0.1",
     "@polkadot/extension-dapp": "^0.54.1",
     "@polkadot/extension-inject": "^0.54.1",
     "@polkadot/react-identicon": "^3.10.1",
     "@uiw/react-markdown-editor": "^6.1.2",
-    "antd": "^5.21.4",
+    "antd": "^5.12.3",
     "bn.js": "^5.2.1",
     "classnames": "^2.5.1",
     "firebase-admin": "^12.0.0",
     "framer-motion": "^11.11.9",
-    "next": "^15.0.0",
+    "next": "^14.0.3",
     "react": "^18",
     "react-dom": "^18",
-    "react-toastify": "^10.0.6"
+
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@types/node": "^20",
