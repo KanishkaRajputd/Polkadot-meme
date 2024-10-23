@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import queueNotification from "./QueueNotification";
 import { web3FromSource } from "@polkadot/extension-dapp";
 import classNames from "classnames";
-import { useRouter } from "next/navigation";
 import nextApiClientFetch from "../utils/nextApiClientFetch";
 import useUserDetailsContext from "../context";
 import { useApiContext } from "../context/ApiContext";
@@ -30,7 +29,6 @@ const MintToken = ({
   token: ICoin;
   setTokenDetails: (pre: ICoin) => void;
 }) => {
-  const router = useRouter();
   const { loginAddress, accounts } = useUserDetailsContext();
   const { api, apiReady } = useApiContext();
   const [form] = Form.useForm();

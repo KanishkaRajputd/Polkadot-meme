@@ -44,7 +44,7 @@ const executeTx = async ({
     } else if (status.isBroadcast) {
       console.log("Transaction has been broadcasted");
       setStatus?.("Transaction has been broadcasted");
-      onBroadcast && onBroadcast?.();
+      onBroadcast?.();
     } else if (status.isInBlock) {
       console.log("Transaction is in block");
       setStatus?.("Transaction is in block");

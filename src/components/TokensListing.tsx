@@ -40,6 +40,7 @@ const TokensListing = ({ className }: Props) => {
 
   useEffect(() => {
     getAllTokens();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const columns = [
@@ -78,7 +79,7 @@ const TokensListing = ({ className }: Props) => {
       title: "Title",
       dataIndex: "title",
       key: "title",
-      render: (title: string, data: ICoin) => <div>{title}</div>,
+      render: (title: string) => <div>{title}</div>,
     },
     {
       title: "Redirect",

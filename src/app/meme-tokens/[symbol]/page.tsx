@@ -23,7 +23,7 @@ interface IParams {
   symbol: string;
 }
 
-function Token({ params }: ServerComponentProps<IParams, {}>) {
+function Token({ params }: ServerComponentProps<IParams, any>) {
   console.log(params?.symbol);
   return (
     <Layout style={{ background: "#f0f2f5", minHeight: "100vh" }}>

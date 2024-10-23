@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const withErrorHandling = (handler: {
-  (
-    req: NextRequest,
-    options?: any,
-  ): Promise<NextResponse>;
+  (req: NextRequest, options?: any): Promise<NextResponse>;
 }) => {
   return async (req: NextRequest, options: object) => {
     // CORS preflight request
