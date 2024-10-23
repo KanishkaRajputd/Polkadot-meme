@@ -55,7 +55,6 @@ const CreateMemeCoin = ({className} : { className?: string})=>{
         proposer: loginAddress,
       });
       if(data){
-          console.log({data});
           queueNotification(
               {
                   header: "Success!",
@@ -97,28 +96,23 @@ const CreateMemeCoin = ({className} : { className?: string})=>{
           lim: `${values?.mintLimit}`,
         };
         const remarkTx = api.tx.system.remarkWithEvent(JSON.stringify(payload));
-        const feeTx = api.tx.balances?.transferKeepAlive(
-          getEncodedAddress(process?.env?.MINT_FEE_RECEIVER || '', network || 'polkadot'),
-          new BN('1000000000000')
-        );
-  
 
         const injector = await web3FromSource(
           accounts.find((acc) => acc.address === loginAddress)?.meta?.source
         );
         const signer = injector.signer;
-        const tx = api.tx.utility.batchAll([remarkTx, feeTx]);
 
         await executeTx({
           api: api,
           apiReady: true,
           network: network || 'polkadot' ,
-          tx: tx,
+          tx: remarkTx,
           address: loginAddress,
           params: { signer },
           onSuccess: async (txHash: string) => {
             setIsModalVisible(true);
             await handleOffChainCall(values);
+            console.log({ txHash });
             setLoading(false);
           },
           errorMessageFallback: 'Token creation failed.',

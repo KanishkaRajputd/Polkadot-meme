@@ -3,7 +3,7 @@ import nextApiClientFetch from "@/utils/nextApiClientFetch";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ClockCircleOutlined, ArrowLeftOutlined, LockFilled } from '@ant-design/icons';
+import { ClockCircleOutlined, ArrowLeftOutlined, LockFilled, LinkedinFilled } from '@ant-design/icons';
 import Address from "./Address";
 import Markdown from "./Markdown";
 import getEncodedAddress from "@/utils/getEncodedAddress";
@@ -49,15 +49,19 @@ useEffect(()=>{
             <div className="flex gap-2 items-center w-2/3">
             <label className="text-3xl text-primaryText font-bold">{tokenDetails?.name || ''}</label>
             </div>
-            <div className="flex gap-4 mt-0">
-            <div className=" border-primaryButton w-2/3 mt-0 h-40">
-                <div className="bg-primaryButton text-white flex justify-between rounded-t-2xl px-6 py-4 items-center">
+            <div className="flex gap-4 mt-0 ">
+            <div className=" border-primaryButton w-2/3 mt-0">
+                <div className="bg-primaryButton text-white flex justify-between rounded-t-2xl px-6 py-6 items-center">
                     <span className="text-xl font-semibold">{ tokenDetails?.title || ''}</span>
-                    {![...tokenDetails?.mintedByAddresses || [], tokenDetails?.proposer]?.includes(getEncodedAddress(loginAddress, network || 'polkadot') || '') &&<span><LockFilled className="text-2xl"/></span>}
+                    {![...tokenDetails?.mintedByAddresses || [], tokenDetails?.proposer]?.includes(getEncodedAddress(loginAddress, network || 'polkadot') || '') && <span><LockFilled className="text-2xl"/></span>}
                 </div>
-                <div className="border-solid border-primaryButton border-t-0 border-l-[1px] border-b-[1px] border-r-[1px] p-6 text-primaryText text-sm font-medium">
+                <div className="border-solid border-primaryButton bg-white border-t-0 border-l-[1px] border-b-[1px] border-r-[1px] p-6 text-primaryText text-sm font-medium">
                 {[...tokenDetails?.mintedByAddresses || [], tokenDetails?.proposer]?.includes(getEncodedAddress(loginAddress, network || 'polkadot') || '') ? <Markdown md={tokenDetails?.content || ''}/> :<div className="flex items-center justify-center">
+                    <div className="text-sm font-medium flex flex-col gap-2 items-center justify-center">
+                        <span>Mint your token to get access of this discussion</span>
                     <MintToken token={tokenDetails} setTokenDetails={setTokenDetails}/>
+                    </div>
+                    
                 </div>
                 }
                 </div>
@@ -73,19 +77,19 @@ useEffect(()=>{
                 </div>
 
                 </div>
-                <div className="border-solid border-primaryButton border-t-0 border-l-[1px] border-b-[1px] border-r-[1px] p-6 text-primaryText text-sm font-medium">
+                <div className="border-solid border-primaryButton bg-white border-t-0 border-l-[1px] border-b-[1px] border-r-[1px] p-6 text-primaryText text-sm font-medium">
 
 <div className="border-primaryButton border-t-0 border-solid border-b-[1px] flex gap-4 justify-between items-center py-4">
-    <span className="w-full gap-x-1.5 flex items-start justify-start">
-        Author: <Address address={tokenDetails?.proposer}/>
+    <span className="w-full gap-x-1.5 flex items-center justify-start">
+        Author: <Address address={tokenDetails?.proposer} addressMaxLength={8}/>
     </span>
-    <span className="w-full gap-x-1.5 flex items-start justify-start">
+    <span className="w-full gap-x-1.5 flex items-center justify-start">
         Total Supply: {tokenDetails?.totalSupply}
     </span>
     </div>
-<div className="flex gap-4 justify-between items-center pt-4">
-    <span className="w-full gap-x-1.5 flex items-start justify-start">Holders: {tokenDetails?.mintCount || 0 }</span>
-    <span className="w-full gap-x-1.5 flex items-start justify-start">Limit per mint: {tokenDetails?.limit || 0 }</span>
+<div className="flex gap-6 justify-between items-center pt-4">
+    <span className="w-full gap-x-1.5 flex items-center justify-start">Holders: {tokenDetails?.mintCount || 0 }</span>
+    <span className="w-full gap-x-1.5 flex items-center justify-start">Limit per mint: {tokenDetails?.limit || 0 }</span>
     </div>
                 </div>
             </div>

@@ -1,15 +1,33 @@
 import withErrorHandling from "@/api-middleware/withErrorHandling";
 import { APIError } from "../../../utils/exceptions";
 import { firestore_db } from "@/services/firebaseinit";
-import { ICoin } from "@/types";
+import { ICoin, LISTING_LIMIT } from "@/types";
 import MESSAGES from "@/utils/messsages";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import getReqBody from "@/utils/getReqBody";
 
-export const GET = withErrorHandling(async () => {
+const network = process.env.PUBLIC_NETWORK;
 
-        const allCoinsRefSnapshot = await firestore_db.collection('coins').get();
+export const POST = withErrorHandling(async (req: NextRequest) => {
+
+    
+    if(!network){
+        throw new APIError(MESSAGES.INVALID_NETWORK, 400)
+    }
+     console.log('hereeeee',1)
+
+    const {page} = await getReqBody(req);
+    
+    if(!page || isNaN(page)){
+            throw new APIError(MESSAGES.INVALID_PARAMS, 400)
+        }
+
+        const allCoinsRefSnapshot = await firestore_db.collection('coins').limit(LISTING_LIMIT).offset((page-1)*LISTING_LIMIT).get();
+        const allCoinsRefCount = await firestore_db.collection('coins').count().get();
+
 
         if(allCoinsRefSnapshot.empty){
+            console.log(allCoinsRefSnapshot.empty, 'hereeee');
             throw new APIError(MESSAGES.NO_DATA_FOUND, 400);
         }
 
@@ -17,7 +35,6 @@ export const GET = withErrorHandling(async () => {
         allCoinsRefSnapshot.docs?.map((doc)=>{
            if(doc?.exists){
                const data = doc?.data();
-               console.log(data);
                const payload: ICoin = {
                    createdAt: data?.created_at?.toDate ? data?.created_at?.toDate() : data?.created_at,
                    limit: data?.limit,
@@ -34,7 +51,6 @@ export const GET = withErrorHandling(async () => {
                allCoins?.push(payload);
            }
        });
-    
-		return NextResponse.json({data: allCoins || []})
+    		return NextResponse.json({data:allCoins || [], totalCount: allCoinsRefCount?.data().count || 0})
 
 });

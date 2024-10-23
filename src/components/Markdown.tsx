@@ -22,7 +22,7 @@ const StyledMarkdown = styled(ReactMarkdown)`
 		margin-bottom: 0;
 		overflow-wrap: break-word;
 		max-width: 100%;
-		color: ${(props: any) => (props.theme == 'dark' ? 'white' : '#243A57')} !important;
+		color:  243A57 !important;
 
 		* {
 			max-width: 100% !important;
@@ -35,7 +35,7 @@ const StyledMarkdown = styled(ReactMarkdown)`
 		th,
 		td {
 			border: 1px solid;
-			border-color: ${(props: any) => (props.theme == 'dark' ? 'white' : '#243A57')} !important;
+			border-color: #243A57 !important;
 			padding: 0.5rem;
 		}
 
@@ -52,9 +52,9 @@ const StyledMarkdown = styled(ReactMarkdown)`
 		table {
 			line-height: 160%;
 			margin: 0 0 0.5rem 0;
-			color: ${(props: any) => (props.theme == 'dark' ? '#fff' : '#243A57')} !important;
-			font-weight: ${(props: any) => (props.theme == 'dark' ? '300' : '500')} !important;
-			border: ${(props: any) => (props.theme == 'dark' ? 'white' : '#243A57')} !important;
+			color:#243A57 !important;
+			font-weight: 500 !important;
+			border: #243A57 !important;
 		}
 
 		h1 {
@@ -67,7 +67,7 @@ const StyledMarkdown = styled(ReactMarkdown)`
 		h2 {
 			font-size: 1.3rem;
 			margin: 2rem 0 1rem 0;
-			font-weight: ${(props: any) => (props.theme == 'dark' ? '400' : '500')} !important;
+			font-weight: 500 !important;
 			display: table;
 			vertical-align: center;
 		}
@@ -76,7 +76,7 @@ const StyledMarkdown = styled(ReactMarkdown)`
 		h4 {
 			font-size: 1.2rem;
 			margin-bottom: 0.8rem;
-			font-weight: ${(props: any) => (props.theme == 'dark' ? '400' : '500')} !important;
+			font-weight: 500 !important;
 			display: table;
 			vertical-align: center;
 		}
@@ -84,12 +84,12 @@ const StyledMarkdown = styled(ReactMarkdown)`
 		ul,
 		ol {
 			padding-left: 2rem;
-			font-weight: ${(props: any) => (props.theme == 'dark' ? '300' : '500')} !important;
+			font-weight: 500 !important;
 
 			li {
 				padding-left: 0.8rem;
 				margin-bottom: 1.2rem;
-				font-weight: ${(props: any) => (props.theme == 'dark' ? '300' : '500')} !important;
+				font-weight: 500 !important;
 			}
 
 			li > input {
@@ -98,11 +98,11 @@ const StyledMarkdown = styled(ReactMarkdown)`
 		}
 
 		a {
-			color: ${(props: any) => (props.theme == 'dark' ? '#FF60B5' : '#e5007a')} !important;
+			color: #e5007a !important;
 
 			&:hover {
 				text-decoration: none;
-				color: ${(props: any) => (props.theme == 'dark' ? '#FF60B5' : '#c40061')} !important;
+				color: #c40061 !important;
 			}
 		}
 		&.hide-blockquote blockquote {
@@ -121,8 +121,8 @@ const StyledMarkdown = styled(ReactMarkdown)`
 			}
 			padding-left: 4px;
 			padding-right: 4px;
-			background-color: ${(props: any) => (props.theme === 'dark' ? '#222' : '#fbfbfd')} !important;
-			color: ${(props: any) => (props.theme === 'dark' ? '#fff' : '#000')} !important;
+			background-color: #fbfbfd !important;
+			color: #000 !important;
 		}
 		&.hide-blockquote .quote {
 			display: none !important;
@@ -161,7 +161,7 @@ const StyledMarkdown = styled(ReactMarkdown)`
 		}
 
 		pre {
-			background-color: ${(props: any) => (props.theme === 'dark' ? '#2c2f32' : '#ebf0f5')} !important;
+			background-color: #ebf0f5 !important;
 			overflow: auto;
 			border-radius: 0.3rem;
 		}
@@ -178,8 +178,8 @@ const StyledMarkdown = styled(ReactMarkdown)`
 
 			padding-left: 4px;
 			padding-right: 4px;
-			background-color: ${(props: any) => (props.theme === 'dark' ? '#222' : '#fbfbfd')} !important;
-			color: ${(props: any) => (props.theme === 'dark' ? '#fff' : '#000')} !important;
+			background-color: #fbfbfd !important;
+			color: #000 !important;
 		}
 		ol,
 		ul {
@@ -227,7 +227,7 @@ const StyledMarkdown = styled(ReactMarkdown)`
 
 			li::marker {
 				font-size: 1em;
-				color: ${(props: any) => (props.theme == 'dark' ? '#fff' : '#243A57')} !important;
+				color:#243A57 !important;
 			}
 		}
 	}

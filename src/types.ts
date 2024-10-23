@@ -1,6 +1,8 @@
 import { BN } from "bn.js";
 import { tokenSymbol } from "./utils/networkConstants";
 
+export const LISTING_LIMIT = 10;
+
 export interface ICoin {
     createdAt: string;
     totalSupply: string;

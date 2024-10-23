@@ -3,10 +3,8 @@
 @tailwind utilities;
 
 body {
-    margin: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: var(--grey_app_background);
+    margin: 0;;
+    background-color: white;
     scroll-behavior: smooth;
     font-family: var(--font_default), "Poppins", -apple-system, BlinkMacSystemFont,
       "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",

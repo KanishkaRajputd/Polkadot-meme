@@ -39,8 +39,6 @@ export function UserDetailsContextProvider(props: any) {
       if(!window)return;
       const result = await web3Enable(APPNAME);
 
-      console.log(result,'results');
-
       const accounts = await web3Accounts({extensions: [wallet]});
 
       setAccounts(accounts || []);

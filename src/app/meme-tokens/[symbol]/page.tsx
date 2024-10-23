@@ -29,7 +29,7 @@ interface IParams {
 function Token({params}: ServerComponentProps<IParams, {}>) {
 
   console.log(params?.symbol)
-  return  <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
+  return  <Layout style={{ background: "#f0f2f5", minHeight: '100vh' }}>
       
       <Navbar/>
 

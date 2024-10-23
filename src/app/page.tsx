@@ -20,7 +20,7 @@ const { Content } = Layout;
 
 const LandingPage = () => {
   return (
-    <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
+    <Layout style={{ background: "#f0f2f5", minHeight: '100vh' }}>
       <Navbar />
       <Content
         style={{

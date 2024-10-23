@@ -17,7 +17,6 @@ export const GET = withErrorHandling(async () => {
         allCoinsRefSnapshot?.docs?.map((doc)=> {
            if(doc?.exists){
                const data = doc?.data();
-               console.log(data);
                const payload: ICoin = {
                    createdAt: data?.created_at?.toDate ? data?.created_at?.toDate() : data?.created_at,
                    limit: data?.limit,

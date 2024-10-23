@@ -40,6 +40,5 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
     }
     
     await coinRefSnapshot?.update(payload);
-    console.log(payload);
     return NextResponse.json({message: MESSAGES.MEME_COIN_MINTED_SUCCESSFULLY})
 });

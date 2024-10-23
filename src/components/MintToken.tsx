@@ -79,17 +79,11 @@ const MintToken = ({className, token,setTokenDetails} : { className?: string, to
           };
 
         const remarkTx = api.tx.system.remarkWithEvent(JSON.stringify(payload));
-        const feeTx = api.tx.balances?.transferKeepAlive(
-          getEncodedAddress(process?.env?.MINT_FEE_RECEIVER || '', network || 'polkadot'),
-          new BN('0')
-        );
-  
 
         const injector = await web3FromSource(
           accounts.find((acc) => acc.address === loginAddress)?.meta?.source
         );
         const signer = injector.signer;
-        const tx = api.tx.utility.batchAll([remarkTx, feeTx]);
 
         await executeTx({
           api: api,
@@ -101,6 +95,7 @@ const MintToken = ({className, token,setTokenDetails} : { className?: string, to
           onSuccess: async (txHash: string) => {
             setIsModalVisible(true);
             await handleOffChainCall();
+            console.log({ txHash });
             setLoading(false);
           },
           errorMessageFallback: 'Token creation failed.',
