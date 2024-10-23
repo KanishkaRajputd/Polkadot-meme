@@ -1,32 +1,31 @@
-import type { Metadata } from "next";
 import "./globals.css";
-import { Poppins } from 'next/font/google';
-import { UserDetailsContextProvider } from "@/context/userDetailsContext";
-
-export const poppins = Poppins({
-	adjustFontFallback: false,
-	display: 'swap',
-	style: ['italic', 'normal'],
-	subsets: ['latin'],
-	variable: '--font-poppins',
-	weight: ['200', '300', '400', '500', '600', '700']
-});
-
+import { Poppins } from "next/font/google";
+import { ConfigProvider } from "antd";
+import { antdTheme } from "../../antdTheme";
+import { ReactNode } from "react";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { ApiContextProvider } from "../context/ApiContext";
+import { UserDetailsContextProvider } from "../context/userDetailsContext";
+import { poppins } from "../types";
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">
-      <UserDetailsContextProvider>
-      <body
-        className={`${poppins.className} ${poppins.variable} bg-[#3E3D3D]`}
-      >
-        {children}
+      <body className={`${poppins.className} ${poppins.variable} bg-[#3E3D3D]`}>
+        <AntdRegistry>
+          <ConfigProvider theme={antdTheme}>
+            <ApiContextProvider>
+              <UserDetailsContextProvider>
+                {children}
+              </UserDetailsContextProvider>
+            </ApiContextProvider>
+          </ConfigProvider>
+        </AntdRegistry>
       </body>
-      </UserDetailsContextProvider>
     </html>
   );
 }

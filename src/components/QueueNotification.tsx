@@ -1,37 +1,25 @@
-import { toast } from 'react-toastify';
+import { notification } from "antd";
+import { NotificationStatus } from "../types";
 
-function NotificationMessage({ header, message }: any) {
-	return (
-		<div className={`flex flex-col`}>
-			<h3 className='text-sm font-medium'>{header}</h3>
-			{message && <p className='text-xs'>{message}</p>}
-		</div>
-	);
-}
+const queueNotification = ({
+  header,
+  message,
+  duration = 5,
+  status,
+}: {
+  status: NotificationStatus;
+  message: string;
+  header: string;
+  duration?: number;
+}) => {
+  const args = {
+    message: header,
+    description: message,
+    duration: duration,
+  };
 
-const queueNotification = ({ header, message, duration = 5000, status }: any) => {
-	const args = {
-		autoClose: duration
-	};
-
-	if (status) {
-		(toast as any)?.[status](
-			<NotificationMessage
-				header={header}
-				message={message}
-			/>,
-			args
-		);
-		return;
-	}
-
-	toast(
-		<NotificationMessage
-			header={header}
-			message={message}
-		/>,
-		args
-	);
+  // queues notifcation
+  notification[status](args);
 };
 
 export default queueNotification;

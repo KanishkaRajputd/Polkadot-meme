@@ -1,37 +1,30 @@
-// Copyright 2019-2025 @polkassembly/polkassembly authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+import { encodeAddress } from "@polkadot/util-crypto";
+import { chainProperties } from "./networkConstants";
 
-import { chainProperties } from '../../public/networkConstants';
-import { encodeAddress } from '@polkadot/util-crypto';
+export default function getEncodedAddress(
+  address: string,
+  network: string,
+): string | null {
+  const ss58Format = chainProperties?.[network]?.ss58Format;
 
-/**
- * Return an address encoded for the current network
- *
- * @param address An address
- *
- */
-export default function getEncodedAddress(address: any, network: string): string | null {
-	const ss58Format = chainProperties?.[network]?.ss58Format;
+  if (!address) {
+    return null;
+  }
 
-	if (!address) {
-		return null;
-	}
+  if (!network || ss58Format === undefined) {
+    return null;
+  }
 
-	if (!network || ss58Format === undefined) {
-		return null;
-	}
+  const newAddress = address;
 
-	const newAddress = address?.value || address;
+  if (newAddress.length) {
+    if (newAddress?.startsWith("0x")) return newAddress;
+  }
 
-	if (newAddress.length) {
-		if (newAddress?.startsWith('0x')) return newAddress;
-	}
-
-	try {
-		return encodeAddress(newAddress, ss58Format);
-	} catch (e) {
-		console.error('getEncodedAddress error', e);
-		return null;
-	}
+  try {
+    return encodeAddress(newAddress, ss58Format);
+  } catch (e) {
+    console.error("getEncodedAddress error", e);
+    return null;
+  }
 }
