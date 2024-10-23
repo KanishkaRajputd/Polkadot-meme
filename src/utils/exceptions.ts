@@ -1,10 +1,10 @@
-import MESSAGES from "@/utils/messsages";
+import MESSAGES from "./messsages";
 
 export class APIError extends Error {
-	status: number;
+  status: number;
 
-	constructor(message = MESSAGES.API_FETCH_ERROR, status = 500) {
-		super(message);
-		this.status = status;
-	}
+  constructor(message = MESSAGES.API_FETCH_ERROR, status = 500) {
+    super(message);
+    this.status = status;
+  }
 }

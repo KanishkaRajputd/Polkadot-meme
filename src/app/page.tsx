@@ -1,26 +1,24 @@
 "use client";
 
 import React from "react";
-import { Layout, Skeleton, Table } from "antd";
+import { Layout, Skeleton } from "antd";
 import dynamic from "next/dynamic";
-import TokensListing from "@/components/TokensListing";
+import TokensListing from "../components/TokensListing";
 
-const CreateMemeCoin = dynamic(() => import('@/components/CreateMemeToken'), 
-{
-    ssr: false,
-    loading: () => <Skeleton.Button active />,
+const CreateMemeCoin = dynamic(() => import("../components/CreateMemeToken"), {
+  ssr: false,
+  loading: () => <Skeleton.Button active />,
 });
 
-const Navbar = dynamic(() => import('@/components/Navbar'), 
-{
-    ssr: false,
+const Navbar = dynamic(() => import("../components/Navbar"), {
+  ssr: false,
 });
 
 const { Content } = Layout;
 
 const LandingPage = () => {
   return (
-    <Layout style={{ background: "#f0f2f5", minHeight: '100vh' }}>
+    <Layout style={{ background: "#f0f2f5", minHeight: "100vh" }}>
       <Navbar />
       <Content
         style={{
@@ -30,8 +28,8 @@ const LandingPage = () => {
           alignItems: "center",
         }}
       >
-        <CreateMemeCoin className='w-full flex items-end justify-end'/>
-        <TokensListing className="w-full"/>
+        <CreateMemeCoin className="w-full flex items-end justify-end" />
+        <TokensListing className="w-full" />
       </Content>
 
       <style jsx>{`

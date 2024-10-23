@@ -1,45 +1,47 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react';
-import { Modal } from 'antd';
-import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
+import React, { useState } from "react";
+import { Modal } from "antd";
+import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
 
-const APPNAME = 'DOT ordinals';
+const APPNAME = "DOT ordinals";
 
-interface Args{
-	loginAddress: string,
-	accounts: any[],
-	setLoginAddress: (pre: any) => void,
-	connectWallet: (pre: any) => void,
+interface Args {
+  loginAddress: string;
+  accounts: any[];
+  setLoginAddress: (pre: any) => void;
+  connectWallet: (pre: any) => void;
 }
 
 export const UserDetailsContext = React.createContext<Args>({
-	loginAddress: '',
-    accounts: [],
-   setLoginAddress: (pre: any) => {},
-   connectWallet: (pre: any) => {},
+  loginAddress: "",
+  accounts: [],
+  setLoginAddress: (pre: any) => {},
+  connectWallet: (pre: any) => {},
 });
 
 export function UserDetailsContextProvider(props: any) {
   const { children = null } = props;
-  const [loginAddress, setLoginAddress] = useState('');
+  const [loginAddress, setLoginAddress] = useState("");
   const [accounts, setAccounts] = useState<any[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
-      setIsModalOpen(true);
+    setIsModalOpen(true);
   };
 
   const handleCancel = () => {
-      setIsModalOpen(false);
+    setIsModalOpen(false);
   };
 
   const connectWallet = async (wallet: any) => {
     try {
-      if(!window)return;
+      if (!window) return;
       const result = await web3Enable(APPNAME);
 
-      const accounts = await web3Accounts({extensions: [wallet]});
+      console.log(result);
+
+      const accounts = await web3Accounts({ extensions: [wallet] });
 
       setAccounts(accounts || []);
 
@@ -48,7 +50,6 @@ export function UserDetailsContextProvider(props: any) {
       } else {
         showModal();
       }
-
     } catch (error) {
       console.log(error);
     }
@@ -64,12 +65,38 @@ export function UserDetailsContextProvider(props: any) {
       }}
     >
       {children}
-      <Modal title="Install Wallet" open={isModalOpen} onCancel={handleCancel} onOk={handleCancel} okType="default">
-          <p>Please install polkadot compatible wallet: </p><br/>
-          <p>Recommended: <a target='_blank' rel="noreferrer" href="https://polkadot.js.org/extension/">polkadot.js.org/extension/ 🔗</a></p>
-          <p>Other: <a target='_blank' rel="noreferrer" href="https://polkadot.network/ecosystem/wallets/">polkadot.network/ecosystem/wallets/ 🔗</a></p><br/>
-          <p>After Installation Reload this page</p>
+      <Modal
+        title="Install Wallet"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        onOk={handleCancel}
+        okType="default"
+      >
+        <p>Please install polkadot compatible wallet: </p>
+        <br />
+        <p>
+          Recommended:{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://polkadot.js.org/extension/"
+          >
+            polkadot.js.org/extension/ 🔗
+          </a>
+        </p>
+        <p>
+          Other:{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://polkadot.network/ecosystem/wallets/"
+          >
+            polkadot.network/ecosystem/wallets/ 🔗
+          </a>
+        </p>
+        <br />
+        <p>After Installation Reload this page</p>
       </Modal>
     </UserDetailsContext.Provider>
-    );
-  }
+  );
+}

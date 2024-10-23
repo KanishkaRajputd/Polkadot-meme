@@ -1,22 +1,20 @@
-
 import "./globals.css";
-import { Poppins } from 'next/font/google';
-import { UserDetailsContextProvider } from "@/context/userDetailsContext";
-import { ConfigProvider } from 'antd';
+import { Poppins } from "next/font/google";
+import { ConfigProvider } from "antd";
 import { antdTheme } from "../../antdTheme";
 import { ReactNode } from "react";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { ApiContextProvider } from "@/context/ApiContext";
+import { ApiContextProvider } from "../context/ApiContext";
+import { UserDetailsContextProvider } from "../context/userDetailsContext";
 
 export const poppins = Poppins({
-	adjustFontFallback: false,
-	display: 'swap',
-	style: ['italic', 'normal'],
-	subsets: ['latin'],
-	variable: '--font-poppins',
-	weight: ['200', '300', '400', '500', '600', '700']
+  adjustFontFallback: false,
+  display: "swap",
+  style: ["italic", "normal"],
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  weight: ["200", "300", "400", "500", "600", "700"],
 });
-
 
 export default function RootLayout({
   children,
@@ -25,17 +23,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${poppins.className} ${poppins.variable} bg-[#3E3D3D]`}
-      >
+      <body className={`${poppins.className} ${poppins.variable} bg-[#3E3D3D]`}>
         <AntdRegistry>
-        <ConfigProvider theme={antdTheme}>
-          <ApiContextProvider>
-        <UserDetailsContextProvider>
-        {children}
-        </UserDetailsContextProvider>
-        </ApiContextProvider>
-        </ConfigProvider>
+          <ConfigProvider theme={antdTheme}>
+            <ApiContextProvider>
+              <UserDetailsContextProvider>
+                {children}
+              </UserDetailsContextProvider>
+            </ApiContextProvider>
+          </ConfigProvider>
         </AntdRegistry>
       </body>
     </html>

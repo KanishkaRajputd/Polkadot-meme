@@ -1,35 +1,36 @@
-import messages from "./messsages";
+import MESSAGES from "./messsages";
 
-async function nextApiClientFetch<T>(url: string, data?: { [key: string]: unknown } | FormData | any, method?: 'GET' | 'POST'): Promise<{ data?: T; error?: string }> {
+async function nextApiClientFetch<T>(
+  url: string,
+  data?: { [key: string]: unknown },
+  method?: "GET" | "POST",
+): Promise<{ data?: T; error?: string }> {
+  const headers: Record<string, string> = {
+    "x-network": process.env.PUBLIC_NETWORK || "polkadot",
+  };
 
-	const currentURL = new URL(window.location.href);
+  if (!(data instanceof FormData)) {
+    headers["Content-Type"] = "application/json";
+  }
 
-	const headers: Record<string, string> = {
-		'x-network': process.env.PUBLIC_NETWORK || 'polkadot'
-	};
+  const response = await fetch(`${window.location.origin}/${url}`, {
+    body: data instanceof FormData ? data : JSON.stringify(data),
+    credentials: "include",
+    headers,
+    method: method || "POST",
+  });
 
-	if (!(data instanceof FormData)) {
-		headers['Content-Type'] = 'application/json';
-	}
+  const resJSON = await response.json();
 
-	const response = await fetch(`${window.location.origin}/${url}`, {
-		body: data instanceof FormData ? data : JSON.stringify(data),
-		credentials: 'include',
-		headers,
-		method: method || 'POST'
-	});
+  if (response.status === 200) {
+    return {
+      data: resJSON as T,
+    };
+  }
 
-	const resJSON = await response.json();
-
-	if (response.status === 200) {
-		return {
-			data: resJSON as T
-		};
-	}
-
-	return {
-		error: resJSON.message || messages.API_FETCH_ERROR
-	};
+  return {
+    error: resJSON.message || MESSAGES.API_FETCH_ERROR,
+  };
 }
 
 export default nextApiClientFetch;

@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
 import { useContext } from "react";
 import { UserDetailsContext } from "./userDetailsContext";
 
 const useUserDetailsContext = () => {
-	return useContext(UserDetailsContext);
+  return useContext(UserDetailsContext);
 };
 
 export default useUserDetailsContext;

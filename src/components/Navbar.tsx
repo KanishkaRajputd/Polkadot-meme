@@ -1,20 +1,16 @@
-
 import { Layout, Button, Skeleton } from "antd";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-const ConnectWallet = dynamic(() => import('./ConnectWallet'), 
-{
-    ssr: false,
-    loading: () => <Skeleton.Button active />,
+const ConnectWallet = dynamic(() => import("./ConnectWallet"), {
+  ssr: false,
+  loading: () => <Skeleton.Button active />,
 });
-
 
 const { Header } = Layout;
 
 function Navbar() {
-
   return (
     <div>
       <Header
@@ -46,18 +42,15 @@ function Navbar() {
           className="flex gap-3"
           style={{ display: "flex", alignItems: "center" }}
         >
-   
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.3 }}
           >
-             <Button
-              className="text-primaryButton"
-              type="default"
-            >
-              Polkadot</Button>
-              </motion.div>
+            <Button className="text-primaryButton" type="default">
+              Polkadot
+            </Button>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
@@ -66,12 +59,11 @@ function Navbar() {
             className="w-full"
           >
             <div className=" flex items-end justify-end">
-              <ConnectWallet  />
+              <ConnectWallet />
             </div>
           </motion.div>
         </div>
       </Header>
-    
     </div>
   );
 }
