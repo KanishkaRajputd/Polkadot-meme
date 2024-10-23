@@ -3,11 +3,17 @@
 import { Layout, Skeleton } from "antd";
 import dynamic from "next/dynamic";
 import React from "react";
-import MemeTokenDetails from "../../../components/MemeTokenDetails";
 import { ServerComponentProps } from "../../../types";
 
 const CreateMemeCoin = dynamic(
   () => import("../../../components/CreateMemeToken"),
+  {
+    ssr: false,
+    loading: () => <Skeleton.Button active />,
+  },
+);
+const MemeTokenDetails = dynamic(
+  () => import("../../../components/MemeTokenDetails"),
   {
     ssr: false,
     loading: () => <Skeleton.Button active />,

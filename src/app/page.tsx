@@ -3,7 +3,6 @@
 import React from "react";
 import { Layout, Skeleton } from "antd";
 import dynamic from "next/dynamic";
-import TokensListing from "../components/TokensListing";
 
 const CreateMemeCoin = dynamic(() => import("../components/CreateMemeToken"), {
   ssr: false,
@@ -11,6 +10,9 @@ const CreateMemeCoin = dynamic(() => import("../components/CreateMemeToken"), {
 });
 
 const Navbar = dynamic(() => import("../components/Navbar"), {
+  ssr: false,
+});
+const TokensListing = dynamic(() => import("../components/TokensListing"), {
   ssr: false,
 });
 
