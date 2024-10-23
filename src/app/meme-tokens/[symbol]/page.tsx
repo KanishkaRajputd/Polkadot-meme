@@ -4,6 +4,7 @@ import { Layout, Skeleton } from "antd";
 import dynamic from "next/dynamic";
 import React from "react";
 import { ServerComponentProps } from "../../../types";
+import { notFound } from "next/navigation";
 
 const CreateMemeCoin = dynamic(
   () => import("../../../components/CreateMemeToken"),
@@ -16,7 +17,7 @@ const MemeTokenDetails = dynamic(
   () => import("../../../components/MemeTokenDetails"),
   {
     ssr: false,
-    loading: () => <Skeleton.Button active />,
+    loading: () => <Skeleton active />,
   },
 );
 
@@ -30,7 +31,9 @@ interface IParams {
 }
 
 function Token({ params }: ServerComponentProps<IParams, any>) {
-  console.log(params?.symbol);
+  if (!params?.symbol) {
+    notFound();
+  }
   return (
     <Layout style={{ background: "#f0f2f5", minHeight: "100vh" }}>
       <Navbar />

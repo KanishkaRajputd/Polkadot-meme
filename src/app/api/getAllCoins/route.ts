@@ -13,7 +13,6 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
   if (!network) {
     throw new APIError(MESSAGES.INVALID_NETWORK, 400);
   }
-  console.log("hereeeee", 1);
 
   const { page } = await getReqBody(req);
 

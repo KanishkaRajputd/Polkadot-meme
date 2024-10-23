@@ -4,6 +4,8 @@ import { Poppins } from "next/font/google";
 
 export const LISTING_LIMIT = 10;
 
+export type ErrorBoundaryPageProps = { error: Error; reset: () => void };
+
 export interface ICoin {
   createdAt: string;
   totalSupply: string;

@@ -12,6 +12,7 @@ const CreateMemeCoin = dynamic(() => import("../components/CreateMemeToken"), {
 const Navbar = dynamic(() => import("../components/Navbar"), {
   ssr: false,
 });
+
 const TokensListing = dynamic(() => import("../components/TokensListing"), {
   ssr: false,
 });

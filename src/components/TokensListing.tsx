@@ -62,7 +62,7 @@ const TokensListing = ({ className }: Props) => {
       dataIndex: "proposer",
       key: "proposer",
       render: (proposer: string) => (
-        <Address address={proposer} maxLength={6} />
+        <Address address={proposer} maxLength={8} />
       ),
     },
     {
@@ -102,7 +102,9 @@ const TokensListing = ({ className }: Props) => {
         Meme Tokens ({totalCount || 0})
       </label>
       <Table
-        dataSource={tokensData}
+        dataSource={tokensData?.map((item) => {
+          return { ...item, key: item?.name };
+        })}
         columns={columns}
         className="mt-4"
         pagination={false}

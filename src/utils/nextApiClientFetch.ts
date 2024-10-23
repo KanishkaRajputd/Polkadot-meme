@@ -1,3 +1,5 @@
+"use client";
+
 import MESSAGES from "./messsages";
 
 async function nextApiClientFetch<T>(
@@ -8,10 +10,6 @@ async function nextApiClientFetch<T>(
   const headers: Record<string, string> = {
     "x-network": process.env.PUBLIC_NETWORK || "polkadot",
   };
-
-  if (!(data instanceof FormData)) {
-    headers["Content-Type"] = "application/json";
-  }
 
   const response = await fetch(`${window.location.origin}/${url}`, {
     body: data instanceof FormData ? data : JSON.stringify(data),

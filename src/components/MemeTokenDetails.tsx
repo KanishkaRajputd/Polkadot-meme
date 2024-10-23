@@ -1,3 +1,5 @@
+"use client";
+
 import dayjs from "dayjs";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -8,7 +10,6 @@ import {
 } from "@ant-design/icons";
 import Address from "./Address";
 import Markdown from "./Markdown";
-
 import MintToken from "./MintToken";
 import useUserDetailsContext from "../context";
 import nextApiClientFetch from "../utils/nextApiClientFetch";
