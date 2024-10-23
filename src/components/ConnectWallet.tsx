@@ -4,7 +4,7 @@ import Address from "./Address";
 import AvailableWallets from "./AvailableWallet";
 import classNames from "classnames";
 import useUserDetailsContext from "../context";
-import { poppins } from "../app/layout";
+import { poppins } from "../types";
 
 const ConnectWallet = ({ className }: { className?: string }) => {
   const { accounts, loginAddress, setLoginAddress } = useUserDetailsContext();

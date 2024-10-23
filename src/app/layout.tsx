@@ -6,15 +6,7 @@ import { ReactNode } from "react";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ApiContextProvider } from "../context/ApiContext";
 import { UserDetailsContextProvider } from "../context/userDetailsContext";
-
-export const poppins = Poppins({
-  adjustFontFallback: false,
-  display: "swap",
-  style: ["italic", "normal"],
-  subsets: ["latin"],
-  variable: "--font-poppins",
-  weight: ["200", "300", "400", "500", "600", "700"],
-});
+import { poppins } from "../types";
 
 export default function RootLayout({
   children,

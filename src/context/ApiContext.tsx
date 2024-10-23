@@ -23,7 +23,7 @@ export const ApiContext = React.createContext<Args>({
   setNetwork: () => {},
 });
 
-export function ApiContextProvider(props: null) {
+export function ApiContextProvider(props: any) {
   const { children = null } = props;
   const [network, setNetwork] = useState<string>(
     process.env.PUBLIC_NETWORK || "polkadot",

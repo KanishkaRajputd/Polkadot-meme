@@ -1,5 +1,6 @@
 import BN from "bn.js";
 import { tokenSymbol } from "./utils/networkConstants";
+import { Poppins } from "next/font/google";
 
 export const LISTING_LIMIT = 10;
 
@@ -37,6 +38,16 @@ export interface IFirebaseCoin {
   proposer: string;
   network: string;
 }
+
+export const poppins = Poppins({
+  adjustFontFallback: false,
+  display: "swap",
+  style: ["italic", "normal"],
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  weight: ["200", "300", "400", "500", "600", "700"],
+});
+
 export const ZERO_BN = new BN(0);
 export type TokenSymbol = (typeof tokenSymbol)[keyof typeof tokenSymbol];
 
